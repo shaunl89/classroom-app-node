@@ -13,12 +13,18 @@ module.exports = {
     */
 
    await queryInterface.bulkInsert('Teachers', [{
-    email: 'teachertan@email.com'
-  }, {
-    email: 'teacherkoh@email.com'
-  },{
-   email: 'teacherbernard@email.com'
-  }], {})
+    email: 'teacher1@email.com',
+    createdAt: Sequelize.literal('NOW()'), 
+    updatedAt: Sequelize.literal('NOW()')
+    }, {
+      email: 'teacher2@email.com',
+      createdAt: Sequelize.literal('NOW()'), 
+      updatedAt: Sequelize.literal('NOW()')
+    },{
+    email: 'teacher3@email.com',
+    createdAt: Sequelize.literal('NOW()'), 
+    updatedAt: Sequelize.literal('NOW()')
+    }], {})
   },
 
   down: async (queryInterface, Sequelize) => {

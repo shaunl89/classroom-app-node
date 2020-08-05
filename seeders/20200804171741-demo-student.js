@@ -12,14 +12,20 @@ module.exports = {
      * }], {});
     */
    await queryInterface.bulkInsert('Students', [{
-       email: 'studentjon@email.com',
-       suspended: false
+       email: 'student1@email.com',
+       suspended: false,
+       createdAt: Sequelize.literal('NOW()'), 
+       updatedAt: Sequelize.literal('NOW()')
      }, {
-       email: 'studentmary@email.com',
-       suspended: false
+       email: 'student2@email.com',
+       suspended: false,
+       createdAt: Sequelize.literal('NOW()'), 
+       updatedAt: Sequelize.literal('NOW()')
      }, {
-      email: 'studentjane@email.com',
-      suspended: false
+      email: 'student3@email.com',
+      suspended: false,
+      createdAt: Sequelize.literal('NOW()'), 
+      updatedAt: Sequelize.literal('NOW()')
      }], {})
   },
 
