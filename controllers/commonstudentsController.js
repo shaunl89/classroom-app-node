@@ -10,13 +10,15 @@ module.exports = (req, res) => {
     }
   }).then((teacher) => {
     const teachersIds = teacher.map((tchr) => {
-      return { teacherId: tchr.id }
+      return tchr.id
     })
     return db.TeachersStudents.findAll({
+      attributes: ['StudentId'],
       where: {
-        [Op.and]: teachersIds
+        TeacherId: teachersIds
       }
-    }).then((results) => {
+    })
+    .then((results) => {
       let studArr = results.map((result) => {
         return { id: result.StudentId }
       })

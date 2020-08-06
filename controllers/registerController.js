@@ -4,6 +4,7 @@ module.exports = (req, res) => {
   const { teacher: teacherEmail, students } = req.body
   // TODO: validate emails
 
+  console.log('students', students)
   let studentsEmails
   if (!Array.isArray(students)) {
     studentsEmails = [students]
