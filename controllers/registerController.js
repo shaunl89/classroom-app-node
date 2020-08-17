@@ -36,10 +36,10 @@ module.exports = async (req, res) => {
         })
       })
     )
-    return res.status(204).send()
+    res.status(204).send()
 
   } catch (err) {
-    return res.status(400).send({
+    res.status(400).send({
       error: true,
       message: `Something went wrong with POST /register: ${err.message}`
     })

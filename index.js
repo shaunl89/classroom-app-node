@@ -20,7 +20,8 @@ app.listen(PORT, () => {
 })
 
 // only for development 
-db.sequelize.sync({ force: true }).then(() => {
+db.sequelize.sync({ force: true, match: /_development$/ })
+.then(() => {
   console.log('drop and resync db')
 }).catch((err) => {
   console.warn('error with sync', err)
