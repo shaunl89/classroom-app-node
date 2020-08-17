@@ -28,6 +28,11 @@ module.exports = {
       createdAt: Sequelize.literal('NOW()'), 
       updatedAt: Sequelize.literal('NOW()')
     }, {
+      teacherId: 1,
+      studentId: 3,
+      createdAt: Sequelize.literal('NOW()'), 
+      updatedAt: Sequelize.literal('NOW()')
+    }, {
       teacherId: 2,
       studentId: 2,
       createdAt: Sequelize.literal('NOW()'), 

@@ -30,7 +30,6 @@ module.exports = async (req, res) => {
       }
     })
 
-    console.log('studnet emials', studentEmails)
     res.status(200).send({
       students: studentEmails.map((student) => student.email)
     })
