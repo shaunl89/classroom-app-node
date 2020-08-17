@@ -12,6 +12,13 @@ module.exports = (req, res) => {
     const teachersIds = teacher.map((tchr) => {
       return tchr.id
     })
+    /* 
+      SELECT StudentId 
+      FROM TeachersStudents
+      WHERE TeacherId IN (1, 2)
+      GROUP BY StudentId
+      HAVING count(distinct TeacherId) = 2 
+    */
     return db.TeachersStudents.findAll({
       attributes: ['StudentId'],
       where: {

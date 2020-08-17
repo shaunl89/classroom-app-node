@@ -13,6 +13,6 @@ module.exports = (req, res) => {
     res.status(400).send({
       error: true,
       message: `Something went wrong, ${err.message}`
-    })  
+    })
   })
 }

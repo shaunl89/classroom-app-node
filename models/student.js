@@ -17,7 +17,11 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   Student.init({
-    email: DataTypes.STRING,
+    email: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true
+    },
     suspended: DataTypes.BOOLEAN
   }, {
     sequelize,
