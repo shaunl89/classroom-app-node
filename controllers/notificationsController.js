@@ -1,58 +1,59 @@
 const db = require('../models')
-const { Op } = require('sequelize');
 
-module.exports = (req, res) => {
+module.exports = async (req, res) => {
   const { teacher, notification } = req.body
   
   // find students in notification @mentioned
   const emailRegex = /@\S+@\S+/g;
-  const mentions = req.body.notification.match(emailRegex)
+  const mentions = notification.match(emailRegex)
   
-  // check student is registered to teacher
-  db.Teacher.findOne({
-    where: {
-      email: teacher
-    }
-  }).then((teacher) => {
-
-    db.Student.findAll({
+  try {
+    const teacherId = await db.Teacher.findOne({
+      attributes: ['id'],
       where: {
-        email: mentions
+        email: teacher
       }
-    }).then((students) => {
-      const studentsIds = students.map((student) => {
-        return student.id
-      })
-
-      db.TeachersStudents.findAll({
-        attributes: ['StudentId'],
-        where: {
-          [Op.and]: [
-            { teacherId: teacher.id},
-            { studentId: studentsIds }
-          ]
-        }
-      }).then((studentIds) => {
-        db.Student.findAll({
-          where: {
-            [Op.and]: [
-              { id: studentIds },
-              { suspended: 0 }
-            ],
-          }
-        }).then((students) => {
-          res.status(200).send({
-            students: students
-          })
-        })
-      })
     })
-  }
+
+    if (!teacherId) throw 'No teacher found'
+
+    // find students under the teacher
+    const teachersStudents = await db.sequelize.query(`
+      SELECT email
+      FROM Students LEFT JOIN TeachersStudents
+      ON Students.id = TeachersStudents.StudentId
+      WHERE TeacherId = ${teacherId.id} AND suspended = false;
+    `)
   
-  ).catch((err) => {
+    // find students in @mentioned
+    const studentsMentioned = await db.Student.findAll({
+      attributes: ['email'],
+      where: {
+        email: mentions.map((mention) => mention.slice(1)),
+        suspended: false
+      }
+    })
+
+    const mentioned = []
+    teachersStudents[0].forEach((student) => {
+      if (!mentioned.includes(student.email)) {
+        mentioned.push(student.email)
+      }
+    })
+    studentsMentioned.forEach((student) => {
+      if (!mentioned.includes(student.email)) {
+        mentioned.push(student.email)
+      }
+    })
+
+    res.status(200).send({
+      recipients: mentioned
+    })
+
+  } catch(err) {
     res.status(400).send({
       error: true,
-      message: `An error occured, ${err.message}`
+      message: `Something went wrong with POST /notifications: ${err}`
     })
-  })
+  }
 }

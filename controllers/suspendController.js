@@ -8,7 +8,7 @@ module.exports = (req, res) => {
       email: req.body.student
     }
   }).then(() => {
-    res.send(204)
+    res.status(204).send()
   }).catch((err) => {
     res.status(400).send({
       error: true,

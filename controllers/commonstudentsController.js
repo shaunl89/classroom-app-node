@@ -1,10 +1,11 @@
 const db = require('../models')
-const { Op } = require('sequelize');
 
 module.exports = async (req, res) => {
   const { teacher } = req.query
 
   try {
+    if (!teacher) throw 'No teachers selected'
+
     let teachers = await db.Teacher.findAll({
       attributes: ['id'],
       where: {
@@ -12,14 +13,16 @@ module.exports = async (req, res) => {
       }
     })
 
+    if (!teachers.length) throw 'No teachers found'
+
     const teacherIds = teachers.map((teacher) => teacher.id)
-  
+
     let studentIds = await db.sequelize.query(`
         SELECT StudentId 
         FROM TeachersStudents
         WHERE TeacherId IN (${[...teacherIds]})
         GROUP BY StudentId
-        HAVING count(distinct TeacherId) = ${teacherIds.length}
+        HAVING count(TeacherId) = ${teacherIds.length};
       `
     )
   
