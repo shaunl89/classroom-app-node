@@ -4,7 +4,8 @@
 ```
 mysql -u root -p
 
-CREATE DATABASE classroomapp
+CREATE DATABASE classroomapp_development
+CREATE DATABASE classroomapp_test
 
 npm install sequelize-cli -g
 ```

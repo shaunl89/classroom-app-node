@@ -4,8 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "test",
-    "start": "nodemon"
+    "start": "cross-env NODE_ENV=development nodemon",
+    "test": "cross-env NODE_ENV=test jest --config tests/jest.conf.js --testTimeout=10000",
+    "migrate": "npx sequelize-cli db:migrate",
+    "migrate:reset": "npx sequelize-cli db:migrate:undo:all && npm run migrate",
+    "db:seed:all": "cross-env NODE_ENV=test npx sequelize-cli db:seed:all",
+    "pretest": "cross-env NODE_ENV=test npm run migrate:reset && npm run db:seed:all"
   },
   "repository": {
     "type": "git",
@@ -23,5 +27,10 @@
     "mysql2": "^2.1.0",
     "nodemon": "^2.0.4",
     "sequelize": "^6.3.4"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.2",
+    "jest": "^26.4.0",
+    "supertest": "^4.0.2"
   }
 }
