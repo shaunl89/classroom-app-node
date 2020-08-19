@@ -26,5 +26,27 @@ sequelize db:seed:all
 sequelize db:migrate
 ```
 
+### Starting the app
+```
+npm install
+npm start
+```
+
+### Running unit tests
+```
+npm test
+```
+
+### ERD
+![](/readme_assets/ERD.png)
+
 ### Postman collections
 https://www.getpostman.com/collections/c97a0169d3cff451ded6
+
+### Endpoints
+```
+POST /api/register
+GET /api/commonstudents
+POST /api/suspend
+POST /api/retrievefornotifications
+```
