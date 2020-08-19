@@ -26,3 +26,5 @@ db.sequelize.sync({ force: true, match: /_development$/ })
 }).catch((err) => {
   console.warn('error with sync', err)
 })
+
+module.exports = app

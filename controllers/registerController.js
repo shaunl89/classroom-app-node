@@ -1,4 +1,4 @@
-const db = require("../models")
+const db = require('../models')
 
 module.exports = async (req, res) => {
   const { teacher: teacherEmail, students } = req.body
@@ -12,6 +12,8 @@ module.exports = async (req, res) => {
   }
 
   try {
+    if (!studentsEmails.length) throw 'No students were listed'
+
     let teacher = await db.Teacher.findOne({
       where: {
         email: teacherEmail
